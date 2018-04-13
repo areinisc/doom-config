@@ -8,9 +8,8 @@
 ;; define slime package
 (def-package! slime
   :defer t
-  :init
-  (load (expand-file-name "~/quicklisp/slime-helper.el"))
   :config
+  (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
   (require 'slime-autoloads))
 
