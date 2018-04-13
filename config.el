@@ -11,7 +11,7 @@
   :config
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
-  (require 'slime-autoloads))
+  (setq slime-contribs '(slime-fancy)))
 
 ;; ;; I did these here before trying to add them to def-package!
 ;; ;; set up quicklisp
