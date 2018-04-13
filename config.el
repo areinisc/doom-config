@@ -4,15 +4,15 @@
 ;; Set theme to doom-nova (from doom-themes)
 (setq doom-theme 'doom-nova)
 
-; ;;; quicklisp + SLIME + SBCL = LISP development
-; ;; define slime package
-; (def-package! slime
-;   :init
-;   (setq inferior-lisp-program "/usr/local/bin/sbcl"
-;         slime-contribs '(slime-fancy))
-;   :config
-;   (require 'slime-autoloads)
-;   (load (expand-file-name "~/quicklisp/slime-helper.el")))
+;;; quicklisp + SLIME + SBCL = LISP development
+;; define slime package
+(def-package! slime
+  :defer t
+  :init
+  (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  :config
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+  (require 'slime-autoloads))
 
 ;; ;; I did these here before trying to add them to def-package!
 ;; ;; set up quicklisp
@@ -20,4 +20,4 @@
 ;; (setq inferior-lisp-program "/usr/local/bin/sbcl")
 ;; (setq slime-contribs '(slime-fancy))
 
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+; (load (expand-file-name "~/quicklisp/slime-helper.el"))
