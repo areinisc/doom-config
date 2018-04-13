@@ -7,7 +7,7 @@
 ;;; quicklisp + SLIME + SBCL = LISP development
 ;; define slime package
 (def-package! slime
-  :defer t
+  :commands slime
   :config
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
