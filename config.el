@@ -6,9 +6,11 @@
 
 ;;; quicklisp + SLIME + SBCL = LISP development
 ;; define slime package
+
 (def-package! slime
-  :commands slime
+  ; :commands slime
   :config
+  (require 'slime-autoloads)
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
   (setq slime-contribs '(slime-fancy)))
@@ -20,3 +22,13 @@
 ;; (setq slime-contribs '(slime-fancy))
 
 ; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+
+; (after! slime
+;   (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;   (setq inferior-lisp-program "/usr/local/bin/sbcl")
+;   (setq slime-contribs '(slime-fancy)))
+
+; (add-hook! slime
+;   (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;   (setq inferior-lisp-program "/usr/local/bin/sbcl")
+;   (setq slime-contribs '(slime-fancy)))
