@@ -5,30 +5,20 @@
 (setq doom-theme 'doom-nova)
 
 ;;; quicklisp + SLIME + SBCL = LISP development
-;; define slime package
-
+;;; define slime package as proscribed by hlissner:
+;;; Option A)
 (def-package! slime
-  ; :commands slime
+  :defer t
+  :init (load "slime-autoloads" nil t)
   :config
-  (require 'slime-autoloads)
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  (setq inferior-lisp-program "/usr/local/bin/sbcl")
-  (setq slime-contribs '(slime-fancy)))
-
-;; ;; I did these here before trying to add them to def-package!
-;; ;; set up quicklisp
-;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-;; (setq inferior-lisp-program "/usr/local/bin/sbcl")
-;; (setq slime-contribs '(slime-fancy))
-
-; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-
-; (after! slime
-;   (load (expand-file-name "~/quicklisp/slime-helper.el"))
-;   (setq inferior-lisp-program "/usr/local/bin/sbcl")
-;   (setq slime-contribs '(slime-fancy)))
-
-; (add-hook! slime
-;   (load (expand-file-name "~/quicklisp/slime-helper.el"))
-;   (setq inferior-lisp-program "/usr/local/bin/sbcl")
-;   (setq slime-contribs '(slime-fancy)))
+  (setq inferior-lisp-program "/usr/local/bin/sbcl"
+        slime-contribs '(slime-fancy)))
+;;; Option B)
+;; (def-package! slime
+;;   :commands (slime slime-mode slime-connect slime-selector slime-setup)
+;;   :hook (lisp-mode . slime-lisp-mode-hook)
+;;   :config
+;;   (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;;   (setq inferior-lisp-program "/usr/local/bin/sbcl"
+;;         slime-contribs '(slime-fancy)))
