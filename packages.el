@@ -1,5 +1,9 @@
 ;;;  -*- lexical-binding: t; -*-
 
+;; And paredit somehow already exists.
+;; Let's get paredit up in here.
+; (package! paredit)
+
 ; Apparently we already have slime too.
 ; ;;; quicklisp + SLIME + SBCL = LISP development
 ; ;; Add SLIME from github repo
