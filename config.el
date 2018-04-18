@@ -12,8 +12,7 @@
   (defconst light-theme 'doom-solarized-light)
   (defconst dark-theme 'doom-nova)
 
-  (setq doom-theme 'doom-nova ; starting (dark) theme
-        theme-is-dark t)      ; boolean to track if theme is dark
+  (setq doom-theme dark-theme) ; starting (dark) theme
 
   ;; Set 2nd argument to how often (in seconds) you want to check light sensor.
   (run-with-timer 10 10 #'change-theme-for-lighting))
@@ -27,13 +26,12 @@
             ;; in your doom-config directory ("~/.doom.d/" or "~/.config/doom/")
             (concat doom-private-dir "lmutracker")))))
     (if (< current-light-sensor-reading 100000) ; test if environment is low-light
-        (unless theme-is-dark         ; if theme is not yet dark
-          (load-theme dark-theme 1)   ; load dark theme
-          (setq theme-is-dark t))     ; note that theme is dark now
-
-      (when theme-is-dark             ; if theme is dark
-        (load-theme light-theme 1)    ; load light theme
-        (setq theme-is-dark nil)))))  ; note that theme is NOT dark now
+        (unless (eq doom-theme dark-theme) ; if theme is not yet dark
+          (setq doom-theme dark-theme)     ; change to dark theme
+          (doom//reload-theme))
+      (when (eq doom-theme dark-theme)     ; if theme is dark
+        (setq doom-theme light-theme)      ; change to light theme
+        (doom//reload-theme)))))
 
 
 ;;; PLUGINS
