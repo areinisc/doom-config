@@ -6,19 +6,21 @@
 (unless (eq system-type 'darwin)
   (setq doom-theme 'doom-nova))
 
-;; When on mac, use brightness sensor for theme adjustment
-(when (eq system-type 'darwin)
-  ;; Set your light and dark theme choices here!
-  (defconst light-theme 'doom-solarized-light)
-  (defconst dark-theme 'doom-nova)
+;; photometry
+;; I want to be able to toggle "photometry" (automatic theme switching),
+;; but I don't know how to properly build a module or code in elisp.
 
-  (setq doom-theme dark-theme) ; starting (dark) theme
+;; Here I start by defining an integer variable that tracks the state of
+;; photometry being on or off.
+(defvar photometry-mode 0)  ; photometry is recorded as "off"
 
-  ;; Set 2nd argument to how often (in seconds) you want to check light sensor.
-  (run-with-timer 10 10 #'change-theme-for-lighting))
+;; Set light and dark theme choices here!
+(defconst light-theme 'doom-solarized-light)
+(defconst dark-theme 'doom-nova)
 
-(defun change-theme-for-lighting ()
-  "Function for sensing light and changing themes."
+(defun photometry ()
+  "Function for sensing light and changing themes based on apparent brightness
+as reported through lmutracker executable."
   (let* ((current-light-sensor-reading
           (string-to-number
            (shell-command-to-string
@@ -32,6 +34,26 @@
       (when (eq doom-theme dark-theme)     ; if theme is dark
         (setq doom-theme light-theme)      ; change to light theme
         (doom//reload-theme)))))
+
+(defun photometry/toggle ()
+  "Toggle photometry on/off. Photometry is a function that changes the theme
+over time based on ambient light sensor readings."
+  (interactive)
+  (if (zerop photometry-mode)
+      (and (setq photometry-mode (1+ photometry-mode))
+           (run-with-timer 0 10 #'photometry)) ; integer controls the update interval
+    (and (setq photometry-mode (1- photometry-mode))
+         (cancel-function-timers 'photometry))))
+
+;; Add keybind so photometry can be toggled with `SPC t p`
+(map! (:leader
+        (:desc "toggle" :prefix "t"
+          :desc "Photometry" :n "p" #'photometry/toggle)))
+
+;; When on mac, use photometry for automatic theme adjustment
+(when (eq system-type 'darwin)
+  (setq doom-theme dark-theme) ; starting (dark) theme
+  (photometry/toggle))
 
 
 ;;; PLUGINS
