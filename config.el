@@ -1,29 +1,38 @@
 ;;;  -*- lexical-binding: t; -*-
 
+
+;;;
+;;; FIXUP for macos
+;;;
+
 ;;; macos title-bar fix
 (setq default-frame-alist '((ns-transparent-titlebar . t) (ns-appearance . 'nil)))
 
-;;; THEME
 
-;; When not on mac, set theme to doom-nova (from doom-themes)
-(unless (eq system-type 'darwin)
-  (setq doom-theme 'doom-nova))
+;;;
+;;; THEME
+;;;
+
+;; Set light and dark theme choices here!
+(defconst light-theme 'doom-nord-light)
+(defconst dark-theme 'doom-nord)
+(defconst mac-default-theme 'dark-theme
+  "Controls whether default theme is dark or light.")
 
 ;; photometry
 ;; I want to be able to toggle "photometry" (automatic theme switching),
 ;; but I don't know how to properly build a module or code in elisp.
 
-;; Here I start by defining an integer variable that tracks the state of
-;; photometry being on or off.
-(defvar photometry-mode 0)  ; photometry is recorded as "off"
-
-;; Set light and dark theme choices here!
-(defconst light-theme 'doom-solarized-light)
-(defconst dark-theme 'doom-nova)
+;; Define integer variable to track photometry state (on/off; 1/0)
+(defvar photometry-mode 0
+  "photometry is recorded as *off*")
 
 (defun photometry ()
   "Function for sensing light and changing themes based on apparent brightness
-as reported through lmutracker executable."
+as reported through lmutracker executable. Adjust the integer compared to
+current-light-sensor-reading to change low-light threshold---100000 means it's
+fairly dark before switching to dark, higher numbers let you keep a dark theme
+even with moderate ambient lighting."
   (let* ((current-light-sensor-reading
           (string-to-number
            (shell-command-to-string
@@ -55,12 +64,18 @@ over time based on ambient light sensor readings."
 
 ;; When on mac, use photometry for automatic theme adjustment
 (when (eq system-type 'darwin)
-  (setq doom-theme dark-theme) ; starting (dark) theme
+  (setq doom-theme mac-default-theme) ; starting (dark) theme
  ;(photometry/toggle)          ; start with photometry on
   )
 
+;; When not on mac, set theme to doom-nova (from doom-themes)
+(unless (eq system-type 'darwin)
+  (setq doom-theme 'doom-nova))
 
+
+;;;
 ;;; PLUGINS
+;;;
 
 ;; SLIME
 ;; quicklisp + SLIME + SBCL = LISP development
