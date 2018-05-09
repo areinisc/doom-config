@@ -30,7 +30,7 @@ as reported through lmutracker executable."
             ;; this assumes you put the `lmutracker` executable
             ;; in your doom-config directory ("~/.doom.d/" or "~/.config/doom/")
             (concat doom-private-dir "lmutracker")))))
-    (if (< current-light-sensor-reading 100000) ; test if environment is low-light
+    (if (< current-light-sensor-reading 250000) ; test if environment is low-light
         (unless (eq doom-theme dark-theme) ; if theme is not yet dark
           (setq doom-theme dark-theme)     ; change to dark theme
           (doom//reload-theme))
@@ -56,7 +56,8 @@ over time based on ambient light sensor readings."
 ;; When on mac, use photometry for automatic theme adjustment
 (when (eq system-type 'darwin)
   (setq doom-theme dark-theme) ; starting (dark) theme
-  (photometry/toggle))
+ ;(photometry/toggle)          ; start with photometry on
+  )
 
 
 ;;; PLUGINS
