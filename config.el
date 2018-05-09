@@ -1,5 +1,8 @@
 ;;;  -*- lexical-binding: t; -*-
 
+;;; macos title-bar fix
+(setq default-frame-alist '((ns-transparent-titlebar . t) (ns-appearance . 'nil)))
+
 ;;; THEME
 
 ;; When not on mac, set theme to doom-nova (from doom-themes)
