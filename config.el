@@ -106,3 +106,7 @@ over time based on ambient light sensor readings."
 ;; (def-package! paredit
 ;;   :defer t
 ;;   :init (load "paredit-autoloads" nil t))
+
+; ;; ein
+; (after! ein
+;         (set! :ein-notebook-dir "~/Documents"))
