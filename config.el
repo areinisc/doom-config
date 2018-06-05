@@ -85,7 +85,7 @@ over time based on ambient light sensor readings."
   :defer t
   :init (load "slime-autoloads" nil t)
   :config
-  (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (setq inferior-lisp-program "/usr/local/bin/sbcl"
         slime-contribs '(slime-fancy)))
 ;; Option B)
