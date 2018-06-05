@@ -98,9 +98,9 @@ over time based on ambient light sensor readings."
 ;;         slime-contribs '(slime-fancy)))
 
 ;; paredit
-(def-package! paredit
-  :commands (paredit-mode enable-paredit-mode)
-  :hook (lisp-mode . enable-paredit-mode))
+;; (def-package! paredit
+;;   :commands (paredit-mode enable-paredit-mode)
+;;   :hook (lisp-mode . enable-paredit-mode))
 ;; Option B)
 ;; Doesn't enforce paredit mode for lisp files, just autoloads it.
 ;; (def-package! paredit
