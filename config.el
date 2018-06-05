@@ -65,7 +65,7 @@ over time based on ambient light sensor readings."
 ;; When on mac, use photometry for automatic theme adjustment
 (when (eq system-type 'darwin)
   (setq doom-theme mac-default-theme) ; starting (dark) theme
- ;(photometry/toggle)          ; start with photometry on
+  (photometry/toggle)          ; start with photometry on
   )
 
 ;; When not on mac, set theme to doom-nova (from doom-themes)
