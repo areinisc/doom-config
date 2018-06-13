@@ -110,3 +110,26 @@ over time based on ambient light sensor readings."
 ; ;; ein
 ; (after! ein
 ;         (set! :ein-notebook-dir "~/Documents"))
+
+;;;
+;;; KEYBINDS
+;;;
+
+;; smartparens
+;; (map!
+;;   (:after smartparens
+;;     (:map smartparens-mode-map
+;;       ",s" #'sp-splice-sexp
+;;       ",f" #'sp-forward-slurp-sexp
+;;       ",w" #'sp-wrap-round)))
+(map!
+ (:map lisp-mode-shared-map
+   (:prefix "C-,"
+     "s"  #'sp-splice-sexp
+     "w"  #'sp-wrap-round
+     "f"  #'sp-forward-slurp-sexp
+     "b"  #'sp-forward-barf-sexp)))
+
+
+;; (after! magit
+;;   (setq magit-display-buffer-function #'magit-display-buffer-traditional))
