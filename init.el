@@ -37,7 +37,7 @@
        neotree           ; a project drawer, like NERDTree for vim
       ;treemacs          ; a project drawer, like neotree but cooler
        (popup            ; tame sudden yet inevitable temporary windows
-        +all             ; catch all popups that start with an asterix
+       ;+all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
       ;tabbar            ; FIXME an (incomplete) tab bar for Emacs
       ;unicode           ; extended unicode support for various languages
@@ -70,7 +70,8 @@
 
        :lang
       ;assembly          ; assembly for fun or debugging
-      ;cc                ; C/C++/Obj-C madness
+      ;(cc +irony +rtags); C/C++/Obj-C madness
+       common-lisp       ; if you've seen one lisp, you've seen them all
       ;crystal           ; ruby at the speed of c
       ;clojure           ; java with a lisp
       ;csharp            ; unity, .NET, and mono shenanigans
