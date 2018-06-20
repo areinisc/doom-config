@@ -39,6 +39,7 @@
        (popup            ; tame sudden yet inevitable temporary windows
        ;+all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
+      ;pretty-code       ; replace bits of code with pretty symbols
       ;tabbar            ; FIXME an (incomplete) tab bar for Emacs
       ;unicode           ; extended unicode support for various languages
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -47,8 +48,8 @@
        :emacs
        dired             ; making dired pretty [functional]
        ediff             ; comparing files in Emacs
-       electric-indent   ; smarter, keyword-based electric-indent
-      ;eshell            ; a consistent, cross-platform shell (WIP)
+       electric          ; smarter, keyword-based electric-indent
+       eshell            ; a consistent, cross-platform shell (WIP)
        imenu             ; an imenu sidebar and searchable code index
        term              ; terminals in Emacs
 
