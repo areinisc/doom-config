@@ -42,10 +42,10 @@ even with moderate ambient lighting."
     (if (< current-light-sensor-reading 250000) ; test if environment is low-light
         (unless (eq doom-theme dark-theme) ; if theme is not yet dark
           (setq doom-theme dark-theme)     ; change to dark theme
-          (doom//reload-theme))
+          (doom/reload-theme))
       (when (eq doom-theme dark-theme)     ; if theme is dark
         (setq doom-theme light-theme)      ; change to light theme
-        (doom//reload-theme)))))
+        (doom/reload-theme)))))
 
 (defun photometry/toggle ()
   "Toggle photometry on/off. Photometry is a function that changes the theme
@@ -81,13 +81,13 @@ over time based on ambient light sensor readings."
 ;; quicklisp + SLIME + SBCL = LISP development
 ;; define slime package as proscribed by hlissner:
 ;; Option A)
-(def-package! slime
-  :defer t
-  :init (load "slime-autoloads" nil t)
-  :config
-  ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  (setq inferior-lisp-program "/usr/local/bin/sbcl"
-        slime-contribs '(slime-fancy)))
+;; (def-package! slime
+;;   :defer t
+;;   :init (load "slime-autoloads" nil t)
+;;   :config
+;;   ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;;   (setq inferior-lisp-program "/usr/local/bin/sbcl"
+;;         slime-contribs '(slime-fancy)))
 ;; Option B)
 ;; (def-package! slime
 ;;   :commands (slime slime-mode slime-connect slime-selector slime-setup)
@@ -122,13 +122,13 @@ over time based on ambient light sensor readings."
 ;;       ",s" #'sp-splice-sexp
 ;;       ",f" #'sp-forward-slurp-sexp
 ;;       ",w" #'sp-wrap-round)))
-(map!
- (:map lisp-mode-shared-map
-   (:prefix "C-,"
-     "s"  #'sp-splice-sexp
-     "w"  #'sp-wrap-round
-     "f"  #'sp-forward-slurp-sexp
-     "b"  #'sp-forward-barf-sexp)))
+;; (map!
+;;  (:map lisp-mode-shared-map
+;;    (:prefix "C-,"
+;;      "s"  #'sp-splice-sexp
+;;      "w"  #'sp-wrap-round
+;;      "f"  #'sp-forward-slurp-sexp
+;;      "b"  #'sp-forward-barf-sexp)))
 
 
 ;; (after! magit
