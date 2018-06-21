@@ -122,8 +122,8 @@ over time based on ambient light sensor readings."
 ;;         slime-contribs '(slime-fancy)))
 
 ;;; sly
-;; (after! sly
-;;   (set-popup-rule! "^\\*sly-mrepl" :quit nil :ttl nil))
+(after! sly
+  (set-popup-rule! "^\\*sly" :quit nil :ttl nil))
 
 ;;;;
 ;;;; KEYBINDS
