@@ -98,8 +98,8 @@ over time based on ambient light sensor readings."
 ;;; parinfer
 ;; parinfer-double-quote doesn't appear to be doing anything particularly
 ;; magical that smartparens doesn't already do.
-;; (after! parinfer
-;;   (define-key parinfer-mode-map "\"" nil))
+(after! parinfer
+  (define-key parinfer-mode-map "\"" nil))
 
 ;;; slime
 ;; quicklisp + SLIME + SBCL = LISP development
@@ -121,6 +121,9 @@ over time based on ambient light sensor readings."
 ;;   (setq inferior-lisp-program "/usr/local/bin/sbcl"
 ;;         slime-contribs '(slime-fancy)))
 
+;;; sly
+;; (after! sly
+;;   (set-popup-rule! "^\\*sly-mrepl" :quit nil :ttl nil))
 
 ;;;;
 ;;;; KEYBINDS
