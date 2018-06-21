@@ -1,17 +1,17 @@
 ;;;  -*- lexical-binding: t; -*-
 
 
-;;;
-;;; FIXUP for macos
-;;;
+;;;;
+;;;; FIXUP for macos
+;;;;
 
 ;;; macos title-bar fix
 (setq default-frame-alist '((ns-transparent-titlebar . t) (ns-appearance . 'nil)))
 
 
-;;;
-;;; THEME
-;;;
+;;;;
+;;;; THEME
+;;;;
 
 ;; Set light and dark theme choices here!
 (defconst light-theme 'doom-nord-light)
@@ -19,7 +19,7 @@
 (defconst mac-default-theme dark-theme
   "Controls whether default theme is dark or light.")
 
-;; photometry
+;;; photometry
 ;; I want to be able to toggle "photometry" (automatic theme switching),
 ;; but I don't know how to properly build a module or code in elisp.
 
@@ -67,17 +67,41 @@ over time based on ambient light sensor readings."
   (setq doom-theme mac-default-theme) ; starting (dark) theme
   (photometry/toggle))          ; start with photometry on
 
-
 ;; When not on mac, set theme to doom-nova (from doom-themes)
 (unless (eq system-type 'darwin)
   (setq doom-theme 'doom-nova))
 
 
-;;;
-;;; PLUGINS
-;;;
+;;;;
+;;;; PLUGINS
+;;;;
 
-;; SLIME
+;;; ein
+;; (after! ein
+;;   (set! :ein-notebook-dir "~/Documents"))
+
+;;; magit
+;; Get magit buffer in a split rather than its own window---like it used to.
+;; (after! magit
+;;   (setq magit-display-buffer-function #'magit-display-buffer-traditional))
+
+;;; paredit
+;; (def-package! paredit
+;;   :commands (paredit-mode enable-paredit-mode)
+;;   :hook (lisp-mode . enable-paredit-mode))
+;; Option B)
+;; Doesn't enforce paredit mode for lisp files, just autoloads it.
+;; (def-package! paredit
+;;   :defer t
+;;   :init (load "paredit-autoloads" nil t))
+
+;;; parinfer
+;; parinfer-double-quote doesn't appear to be doing anything particularly
+;; magical that smartparens doesn't already do.
+;; (after! parinfer
+;;   (define-key parinfer-mode-map "\"" nil))
+
+;;; slime
 ;; quicklisp + SLIME + SBCL = LISP development
 ;; define slime package as proscribed by hlissner:
 ;; Option A)
@@ -97,25 +121,12 @@ over time based on ambient light sensor readings."
 ;;   (setq inferior-lisp-program "/usr/local/bin/sbcl"
 ;;         slime-contribs '(slime-fancy)))
 
-;; paredit
-;; (def-package! paredit
-;;   :commands (paredit-mode enable-paredit-mode)
-;;   :hook (lisp-mode . enable-paredit-mode))
-;; Option B)
-;; Doesn't enforce paredit mode for lisp files, just autoloads it.
-;; (def-package! paredit
-;;   :defer t
-;;   :init (load "paredit-autoloads" nil t))
 
-;; ;; ein
-;; (after! ein
-;;   (set! :ein-notebook-dir "~/Documents"))
+;;;;
+;;;; KEYBINDS
+;;;;
 
-;;;
-;;; KEYBINDS
-;;;
-
-;; smartparens
+;;; smartparens
 ;; (map!
 ;;   (:after smartparens
 ;;     (:map smartparens-mode-map
@@ -129,7 +140,3 @@ over time based on ambient light sensor readings."
 ;;      "w"  #'sp-wrap-round
 ;;      "f"  #'sp-forward-slurp-sexp
 ;;      "b"  #'sp-forward-barf-sexp)))
-
-
-;; (after! magit
-;;   (setq magit-display-buffer-function #'magit-display-buffer-traditional))
