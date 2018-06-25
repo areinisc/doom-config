@@ -14,8 +14,8 @@
 ;;;;
 
 ;; Set light and dark theme choices here!
-(defconst light-theme 'doom-nord-light)
-(defconst dark-theme 'doom-nord)
+(defconst light-theme 'doom-solarized-light) ; doom-nord-light doom-one-light
+(defconst dark-theme  'doom-dracula)         ; doom-dracula doom-peacock doom-one doom-nord
 (defconst mac-default-theme dark-theme
   "Controls whether default theme is dark or light.")
 
