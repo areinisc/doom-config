@@ -24,8 +24,8 @@
 ;; but I don't know how to properly build a module or code in elisp.
 
 ;; Define integer variable to track photometry state (on/off; 1/0)
-(defvar photometry-mode 0
-  "photometry is recorded as *off*")
+(defvar photometry-state 0
+  "photometry state is initially recorded as *off*")
 
 (defun photometry ()
   "Function for sensing light and changing themes based on apparent brightness
@@ -51,10 +51,12 @@ even with moderate ambient lighting."
   "Toggle photometry on/off. Photometry is a function that changes the theme
 over time based on ambient light sensor readings."
   (interactive)
-  (if (zerop photometry-mode)
-      (and (setq photometry-mode (1+ photometry-mode))
+  (if (zerop photometry-state)
+      (and (message "Photometry ON.")
+           (setq photometry-state (1+ photometry-state))
            (run-with-timer 0 10 #'photometry)) ; integer controls the update interval
-    (and (setq photometry-mode (1- photometry-mode))
+    (and (message "Photometry OFF")
+         (setq photometry-state (1- photometry-state))
          (cancel-function-timers 'photometry))))
 
 ;; Add keybind so photometry can be toggled with `SPC t p`
