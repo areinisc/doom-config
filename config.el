@@ -29,7 +29,8 @@
 (defvar photometry-timer nil "Timer object used when photometry is on.")
 
 (defun photometry ()
-  "Function for sensing light and changing themes based on apparent brightness
+  "Sense light and change themes.
+Function for sensing light and changing themes based on apparent brightness
 as reported through lmutracker executable. Adjust the integer compared to
 current-light-sensor-reading to change low-light threshold---100000 means it's
 fairly dark before switching to dark, higher numbers let you keep a dark theme
@@ -49,8 +50,8 @@ even with moderate ambient lighting."
         (doom/reload-theme)))))
 
 (defun photometry/toggle ()
-  "Toggle photometry on/off. Photometry is a function that changes the theme
-over time based on ambient light sensor readings."
+  "Toggle photometry on/off.
+Photometry is used to change the theme based on ambient light sensor readings."
   (interactive)
   (if (not photometry-state)                                                  ; test if photometry is currently off
       (progn (message "Photometry ON.")                                       ; print message about new state (ON)
