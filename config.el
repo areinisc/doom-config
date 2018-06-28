@@ -26,6 +26,7 @@
 ;; Define integer variable to track photometry state (on/off; true/false)
 (defvar photometry-state nil
   "Tracks whether photometry module is on (true) or off (false).")
+(defvar photometry-timer nil "Timer object used when photometry is on.")
 
 (defun photometry ()
   "Function for sensing light and changing themes based on apparent brightness
@@ -51,13 +52,13 @@ even with moderate ambient lighting."
   "Toggle photometry on/off. Photometry is a function that changes the theme
 over time based on ambient light sensor readings."
   (interactive)
-  (if (not photometry-state)
-      (progn (message "Photometry ON.")
-             (setq photometry-state (not photometry-state))
-             (run-with-timer 0 10 #'photometry))         ; integer controls the update interval
-    (progn (message "Photometry OFF")
-           (setq photometry-state (not photometry-state))
-           (cancel-function-timers 'photometry))))
+  (if (not photometry-state)                                                  ; test if photometry is currently off
+      (progn (message "Photometry ON.")                                       ; print message about new state (ON)
+             (setq photometry-state (not photometry-state)                    ; update state variable
+                   photometry-timer (run-with-idle-timer 3 t #'photometry)))  ; start timer to run photometry during each idle-time > 3 seconds
+    (progn (message "Photometry OFF")                                         ; print message about new state (OFF)
+           (setq photometry-state (not photometry-state))                     ; update state variable
+           (cancel-timer photometry-timer))))                                 ; cancel timer object controlling photometry calls
 
 ;; Add keybind so photometry can be toggled with `SPC t p`
 (map! (:leader
@@ -66,8 +67,9 @@ over time based on ambient light sensor readings."
 
 ;; When on mac, use photometry for automatic theme adjustment
 (when (eq system-type 'darwin)
-  (setq doom-theme mac-default-theme)                    ; starting (dark) theme
-  (add-hook! 'doom-post-init-hook #'photometry/toggle))  ; start with photometry on
+  (setq doom-theme mac-default-theme)                                         ; set theme to mac default (dark)
+  (add-hook! 'doom-post-init-hook #'photometry)                               ; run photometry once after doom init
+  (add-hook! 'doom-post-init-hook #'photometry/toggle))                       ; toggle photometry on
 
 ;; When not on mac, set theme to doom-nova (from doom-themes)
 (unless (eq system-type 'darwin)
