@@ -16,6 +16,8 @@
 ;; Set light and dark theme choices here!
 (defconst light-theme 'doom-solarized-light) ; doom-nord-light doom-one-light
 (defconst dark-theme  'doom-peacock)         ; doom-dracula doom-peacock doom-one doom-nord
+(defconst use-photometry t
+  "Set this to `t` to use photometry, set it to `nil` to not use photometry.")
 (defconst mac-default-theme dark-theme
   "Controls whether default theme is dark or light.")
 
@@ -68,9 +70,10 @@ Photometry is used to change the theme based on ambient light sensor readings."
 
 ;; When on mac, use photometry for automatic theme adjustment
 (when (eq system-type 'darwin)
-  (setq doom-theme mac-default-theme)                                         ; set theme to mac default (dark)
-  (add-hook! 'doom-post-init-hook #'photometry)                               ; run photometry once after doom init
-  (add-hook! 'doom-post-init-hook #'photometry/toggle))                       ; toggle photometry on
+  (setq doom-theme mac-default-theme)                       ; set theme to mac default (dark)
+  (when use-photometry
+    (add-hook! 'doom-post-init-hook #'photometry)           ; run photometry once after doom init
+    (add-hook! 'doom-post-init-hook #'photometry/toggle)))  ; toggle photometry on
 
 ;; When not on mac, set theme to doom-nova (from doom-themes)
 (unless (eq system-type 'darwin)
