@@ -21,6 +21,19 @@
 (defconst mac-default-theme dark-theme
   "Controls whether default theme is dark or light.")
 
+(defun toggle-theme ()
+  "Toggle between light and dark themes."
+  (interactive)
+  (cond ((eq doom-theme dark-theme)
+         (message "Toggling to light-theme: %s" light-theme)
+         (setq doom-theme light-theme)
+         (doom/reload-theme))
+        ((eq doom-theme light-theme)
+         (message "Toggling to dark-theme: %s" dark-theme)
+         (setq doom-theme dark-theme)
+         (doom/reload-theme))
+        (t (message "Toggling theme is not possible. Theme is not currently light-theme (%s) or dark-theme (%s)." light-theme dark-theme))))
+
 ;;; photometry
 ;; I want to be able to toggle "photometry" (automatic theme switching),
 ;; but I don't know how to properly build a module or code in elisp.
@@ -66,7 +79,8 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;; Add keybind so photometry can be toggled with `SPC t p`
 (map! (:leader
         (:desc "toggle" :prefix "t"
-          :desc "Photometry" :n "p" #'photometry/toggle)))
+          :desc "Photometry"   :n "p" #'photometry/toggle
+          :desc "toggle-theme" :n "t" #'toggle-theme)))
 
 ;; When on mac, use photometry for automatic theme adjustment
 (when (eq system-type 'darwin)
