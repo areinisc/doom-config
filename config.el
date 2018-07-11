@@ -56,7 +56,7 @@ even with moderate ambient lighting."
             ;; this assumes you put the `lmutracker` executable
             ;; in your doom-config directory ("~/.doom.d/" or "~/.config/doom/")
             (concat doom-private-dir "lmutracker")))))
-    (if (< current-light-sensor-reading 450000) ; test if environment is low-light
+    (if (< current-light-sensor-reading 425000) ; test if environment is low-light
         (unless (eq doom-theme dark-theme) ; if theme is not yet dark
           (setq doom-theme dark-theme)     ; change to dark theme
           (doom/reload-theme))
