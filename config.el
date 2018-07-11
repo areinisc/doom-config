@@ -148,6 +148,8 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;   (set-popup-rule!      "^\\*sly" :quit nil :ttl nil)
 ;;   (set-repl-handler!    'lisp-mode #'sly-mrepl)
 ;;   (set-lookup-handlers! 'lisp-mode :documentation #'sly-documentation))
+;; (package--compile (cadr (assq 'sly package-alist))) ; errors, but also suggested for mismatch fix
+;; (byte-compile-file (locate-library "sly.el"))  ; eval this when versions mismatch
 
 ;;;;
 ;;;; KEYBINDS
