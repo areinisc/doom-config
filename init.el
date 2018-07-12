@@ -28,7 +28,8 @@
        :ui
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
-       doom-modeline     ; a snazzy Atom-inspired mode-line
+       (doom-modeline    ; a snazzy Atom-inspired mode-line
+        +new)            ; use "new" modeline. Don't really know.
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        evil-goggles      ; display visual hints when editing in evil
       ;fci               ; a `fill-column' indicator
