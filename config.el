@@ -106,6 +106,32 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;; Get magit buffer in a split rather than its own window---like it used to.
 ;; (after! magit
 ;;   (setq magit-display-buffer-function #'magit-display-buffer-traditional))
+;; try 3:
+(defun +magit|update-vc-post-refresh ()
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (let ((revert-buffer-in-progress-p t))
+          (vc-refresh-state)))))
+(add-hook 'magit-post-refresh-hook #'+magit|update-vc-post-refresh)
+;; try 2:
+;; (add-hook! 'magit-pre-refresh-hook  (setq auto-revert-check-vc-info t))
+;; (add-hook! 'magit-post-refresh-hook (setq auto-revert-check-vc-info nil))
+;; try 1:
+;; (defun +magit|update-vc-post-refresh ()
+;;   (cl-loop with project-root = (magit-toplevel)
+;;            for buf in (buffer-list)
+;;            for path = (buffer-file-name buf)
+;;            if (and path (file-in-directory-p path project-root))
+;;            do (with-current-buffer buf
+;;                 (when (and (featurep 'git-gutter) git-gutter-mode)
+;;                   (git-gutter))
+;;                 (when-let* ((backend (vc-backend path)))
+;;                   (vc-file-setprop
+;;                    path 'vc-state
+;;                    (vc-call-backend backend 'state path))))))
+;; (add-hook 'magit-post-refresh-hook #'+magit|update-vc-post-refresh)
+;; try 0.5 (old-modeline):
+;; (add-hook 'after-revert-hook #'+doom-modeline--update-vcs)
 
 ;;; paredit
 ;; (def-package! paredit
