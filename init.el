@@ -69,7 +69,8 @@
        make              ; run make tasks from Emacs
        magit             ;
        password-store    ; password manager for nerds
-       pdf               ; pdf enhancements
+       (pdf               ; pdf enhancements
+        +modeline)
       ;prodigy           ; FIXME managing external services & code builders
       ;rgb               ; creating color strings
       ;tmux              ; an API for interacting with tmux
