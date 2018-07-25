@@ -1,5 +1,6 @@
 ;;;  -*- lexical-binding: t; -*-
 
+(advice-add #'recentf-cleanup :around #'doom*shut-up)
 
 ;;;;
 ;;;; FIXUP for macos
