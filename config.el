@@ -87,8 +87,8 @@ Photometry is used to change the theme based on ambient light sensor readings."
 (when (eq system-type 'darwin)
   (setq doom-theme mac-default-theme)                       ; set theme to mac default (dark)
   (when use-photometry
-    (add-hook! 'doom-post-init-hook #'photometry)           ; run photometry once after doom init
-    (add-hook! 'doom-post-init-hook #'photometry/toggle)))  ; toggle photometry on
+    (add-hook! 'window-setup-hook #'photometry)           ; run photometry once after doom init
+    (add-hook! 'window-setup-hook #'photometry/toggle)))  ; toggle photometry on
 
 ;; When not on mac, set theme to doom-nova (from doom-themes)
 (unless (eq system-type 'darwin)
