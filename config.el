@@ -16,7 +16,7 @@
 
 ;; Set light and dark theme choices here!
 (defconst light-theme 'doom-solarized-light) ; doom-nord-light doom-one-light
-(defconst dark-theme  'doom-peacock)         ; doom-dracula doom-peacock doom-one doom-nord
+(defconst dark-theme  'doom-dracula)         ; doom-dracula doom-peacock doom-one doom-nord
 (defconst use-photometry t
   "Set this to `t` to use photometry, set it to `nil` to not use photometry.")
 (defconst mac-default-theme dark-theme
