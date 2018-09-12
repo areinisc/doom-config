@@ -1,5 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
 
+(package! hacker-typer)
+(package! fireplace) ;TODO: Add in some key mappings.
 ;; Trying Henrik's macos patch.
 (package! exec-path-from-shell :disable t)
 ;; have to edit /usr/local/Cellar/emacs-plus/Emacs.app/Contents/MacOS/Emacs
