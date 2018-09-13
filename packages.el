@@ -1,7 +1,11 @@
-;;;  -*- lexical-binding: t; -*-
+;;; packages.el --- private package config  -*- lexical-binding: t; -*-
 
-(package! hacker-typer)
-(package! fireplace) ;TODO: Add in some key mappings.
+;;;
+;;; Package! calls
+;;;
+
+(package! fireplace)
+
 ;; Trying Henrik's macos patch.
 (package! exec-path-from-shell :disable t)
 ;; have to edit /usr/local/Cellar/emacs-plus/Emacs.app/Contents/MacOS/Emacs
