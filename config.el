@@ -170,7 +170,23 @@ Photometry is used to change the theme based on ambient light sensor readings."
           arws-organize (expand-file-name "~/Documents/arws-organize/")
           org-agenda-files (list org-directory
                                  arws-organize
-                                 doom-directory))))
+                                 doom-directory))
+    ;; Add todo-state-change triggers
+    (setq org-todo-state-tags-triggers
+          (quote (("CANCELLED" ("CANCELLED" . t))
+                  ("WAITING" ("WAITING" . t))
+                  ("LATER" ("WAITING") ("LATER" . t))
+                  (done ("WAITING") ("LATER"))
+                  ("TODO" ("WAITING") ("CANCELLED") ("LATER"))
+                  ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
+                  ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))))
+;;  ;; Add capture template
+;;     (when (featurep! :lang org +capture)
+;;         (let ((+relative-project-path (concat "projects/" (doom-project-name 'nocache) ".org")))
+;;           (add-to-list 'org-capture-templates
+;;                        '("p" "Project-Notes" entry)
+;;                        (file+headline +relative-project-path "Inbox")
+;;                        "* %u %?\n%i" :prepend t :kill-buffer t)))))
 
 ;; ;;; tools/magit
 ;; (when (and (featurep! :tools magit)
