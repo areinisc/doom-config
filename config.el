@@ -157,6 +157,10 @@ Photometry is used to change the theme based on ambient light sensor readings."
  ;;     ",f" #'sp-forward-slurp-sexp
  ;;     ",w" #'sp-wrap-round))
  (:leader
+   (:prefix "n"
+     :desc "Browse project notes"  :n  "p" #'+hlissner/find-notes-for-project)
+   (:prefix "p"
+     :desc "Browse project notes"  :n  "n" #'+hlissner/find-notes-for-project)
    (:prefix "t"
      :desc "toggle-theme"  :n "t" #'+areinisch/toggle-theme
      :desc "Start a fire." :n "z" #'fireplace)))
