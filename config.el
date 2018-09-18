@@ -69,10 +69,12 @@
 ;;;;
 
 (when (eq system-type 'darwin)          ; should be the same as (when IS-MAC ...)
-  ;; macos title-bar fix
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (setq ns-use-thin-smoothing t)        ; Use thinner strokes for font smoothing.
+  ;; macOS title-bar fix
   ;; TODO Figure out how to redraw the title-bar to change ns-appearance with theme.
-  (add-to-list 'default-frame-alist '(ns-appearance . light))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . light)) ; CDR: light | dark
+
   ;; Set this to nil if you don't want automagical theme switching.
   (defconst use-photometry t
     "Set this to `t` to use photometry, set it to `nil` to not use photometry.")
