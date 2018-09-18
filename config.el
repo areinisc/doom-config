@@ -28,6 +28,17 @@
           (string= user-login-name "areinisch"))
   (setq avy-keys '(?a ?r ?s ?t ?h ?n ?e ?i ?o)))
 
+;;;###autoload
+(defun +hlissner/find-notes-for-project (&optional arg)
+  "TODO"
+  (interactive "P")
+  (let ((project-root (doom-project-name 'nocache))
+        (default-directory (expand-file-name "projects/" +org-directory)))
+    (if arg
+        (call-interactively #'find-file)
+      (find-file
+       (expand-file-name (concat project-root ".org"))))))
+
 
 ;;;;
 ;;;; THEME
