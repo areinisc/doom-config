@@ -33,7 +33,7 @@
   "TODO"
   (interactive "P")
   (let ((project-root (doom-project-name 'nocache))
-        (default-directory (expand-file-name "projects/" +org-directory)))
+        (default-directory (expand-file-name "projects/" +org-dir)))
     (if arg
         (call-interactively #'find-file)
       (find-file
