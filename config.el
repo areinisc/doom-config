@@ -20,22 +20,6 @@
  ;; TODO: Find a way to ensure `doom-big-font` choice exists
  doom-big-font (font-spec :family "Source Code Pro" :size 19))
 
-;; load heavy packages all sneaky breeky like (straight from Henrik's private config)
-(defun auto-require-packages (packages)
-  (let ((gc-cons-threshold doom-gc-cons-upper-limit)
-        file-name-handler-alist)
-    (let* ((reqs (cl-remove-if #'featurep packages))
-           (req (pop reqs)))
-      (when req
-        (require req)
-        (when reqs
-          (run-with-idle-timer 1 nil #'auto-require-packages reqs))))))
-(run-with-idle-timer 1 nil #'auto-require-packages
-                     '(calendar find-func format-spec org-macs org-compat
-                                org-faces org-entities org-list org-pcomplete org-src
-                                org-footnote org-macro ob org org-clock org-agenda
-                                org-capture with-editor git-commit package magit))
-
 
 ;;;;
 ;;;; THEME
