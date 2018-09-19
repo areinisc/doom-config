@@ -181,9 +181,11 @@ Photometry is used to change the theme based on ambient light sensor readings."
   (after! org                           ; don't run until org is loaded
     ;; Set org agenda file locations.
     (setq org-directory (expand-file-name "~/org/")
+          org-projects-directory (expand-file-name "~/org/projects/")
           doom-directory (expand-file-name "~/.doom.d/")
           arws-organize (expand-file-name "~/Documents/arws-organize/")
           org-agenda-files (list org-directory
+                                 org-projects-directory
                                  arws-organize
                                  doom-directory))
     ;; Add todo-state-change triggers
