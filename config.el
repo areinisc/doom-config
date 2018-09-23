@@ -147,13 +147,15 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;;;
 
 ;;; lang/org
-;; Set org agenda file locations.
-(setq org-directory (expand-file-name "~/org/")
-      doom-directory (expand-file-name "~/.doom.d/")
-      arws-organize (expand-file-name "~/Documents/arws-organize/")
-      org-agenda-files (list org-directory
-                             arws-organize
-                             doom-directory))
+(when (featurep! :lang org)             ; only runs if org is enabled
+  (after! org                           ; don't run until org is loaded
+    ;; Set org agenda file locations.
+    (setq org-directory (expand-file-name "~/org/")
+          doom-directory (expand-file-name "~/.doom.d/")
+          arws-organize (expand-file-name "~/Documents/arws-organize/")
+          org-agenda-files (list org-directory
+                                 arws-organize
+                                 doom-directory))))
 
 ;;; tools/magit
 (when (and (featurep! :tools magit)
