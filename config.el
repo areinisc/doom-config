@@ -201,9 +201,9 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;     (when (featurep! :lang org +capture)
 ;;         (let ((+relative-project-path (concat "projects/" (doom-project-name 'nocache) ".org")))
 ;;           (add-to-list 'org-capture-templates
-;;                        '("p" "Project-Notes" entry)
-;;                        (file+headline +relative-project-path "Inbox")
-;;                        "* %u %?\n%i" :prepend t :kill-buffer t)))))
+;;                        '("p" "Project-Notes" entry
+;;                          (file+headline +relative-project-path "Inbox")
+;;                          "* %u %?\n%i" :prepend t :kill-buffer t))))))
 
 ;; ;;; tools/magit
 ;; (when (and (featurep! :tools magit)
