@@ -156,10 +156,12 @@ Photometry is used to change the theme based on ambient light sensor readings."
                              doom-directory))
 
 ;;; tools/magit
-;; Make the VC portion of the modeline correctly update after magit actions.
-(defun +magit|update-vc-post-refresh ()
-  (dolist (buf (buffer-list))
-    (with-current-buffer buf
-      (let ((revert-buffer-in-progress-p t))
-        (vc-refresh-state)))))
-(add-hook 'magit-post-refresh-hook #'+magit|update-vc-post-refresh)
+(when (and (featurep! :tools magit)
+           (featurep! :emacs vc))
+  ;; Make the VC portion of the modeline correctly update after magit actions.
+  (defun +magit|update-vc-post-refresh ()
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (let ((revert-buffer-in-progress-p t))
+          (vc-refresh-state)))))
+  (add-hook 'magit-post-refresh-hook #'+magit|update-vc-post-refresh))
