@@ -201,8 +201,24 @@ Photometry is used to change the theme based on ambient light sensor readings."
                   (done ("WAITING") ("LATER"))
                   ("TODO" ("WAITING") ("CANCELLED") ("LATER"))
                   ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
-                  ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))))
-;;  ;; Add capture template
+                  ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))
+    ;; Add habits module
+    (add-to-list 'org-modules 'org-habit t)
+    ;; Change default org-habits settings
+    (after! org-habit
+      (set-face-foreground 'org-habit-alert-future-face "#ffffff")
+      (set-face-foreground 'org-habit-clear-face "#ffffff")
+      (set-face-foreground 'org-habit-ready-face "#ffffff")
+      (set-face-foreground 'org-habit-overdue-future-face "#ffffff")
+      (setq org-habit-graph-column   54   ; The absolute column at which to insert habit consistency graphs. N.B. consistency graphs will overwrite anything else in the buffer.
+            org-habit-preceding-days 19   ; Number of days before today to appear in consistency graphs.
+            org-habit-following-days 7    ; Number of days after today to appear in consistency graphs.
+            org-habit-show-habits-only-for-today t ; If non-nil, only show habits on today's agenda, and not for future days. N.B. even when shown for future days, the graph is always relative to the current effective date.
+            org-habit-show-done-always-green nil ; Non-nil means DONE days will always be green in the consistency graph. It will be green even if it was done after the deadline.
+            org-habit-show-all-today nil  ; If non-nil, will show the consistency graph of all habits on today's agenda, even if they are not scheduled.
+            org-habit-show-habits    t)))) ; If non-nil, show habits in agenda buffers.
+
+;;     ;; Add capture template
 ;;     (when (featurep! :lang org +capture)
 ;;         (let ((+relative-project-path (concat "projects/" (doom-project-name 'nocache) ".org")))
 ;;           (add-to-list 'org-capture-templates
