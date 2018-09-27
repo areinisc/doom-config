@@ -206,10 +206,6 @@ Photometry is used to change the theme based on ambient light sensor readings."
     (add-to-list 'org-modules 'org-habit t)
     ;; Change default org-habits settings
     (after! org-habit
-      (set-face-foreground 'org-habit-alert-future-face "#ffffff")
-      (set-face-foreground 'org-habit-clear-face "#ffffff")
-      (set-face-foreground 'org-habit-ready-face "#ffffff")
-      (set-face-foreground 'org-habit-overdue-future-face "#ffffff")
       (setq org-habit-graph-column   54   ; The absolute column at which to insert habit consistency graphs. N.B. consistency graphs will overwrite anything else in the buffer.
             org-habit-preceding-days 19   ; Number of days before today to appear in consistency graphs.
             org-habit-following-days 7    ; Number of days after today to appear in consistency graphs.
