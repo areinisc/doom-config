@@ -17,6 +17,7 @@
 
  ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
  ;; doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
+ doom-font (face-attribute 'default :font)
  ;; TODO: Find a way to ensure `doom-big-font` choice exists
  doom-big-font (font-spec :family "Source Code Pro" :size 19))
 
