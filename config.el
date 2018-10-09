@@ -21,6 +21,13 @@
  ;; TODO: Find a way to ensure `doom-big-font` choice exists
  doom-big-font (font-spec :family "Source Code Pro" :size 19))
 
+;; change easy-motion jump targets for Colemak layout
+;; only do this if I'm the system user
+(when (or (string= user-full-name "Alex Reinisch")
+          (string= user-login-name "alexreinisch")
+          (string= user-login-name "areinisch"))
+  (setq avy-keys '(?a ?r ?s ?t ?h ?n ?e ?i ?o)))
+
 
 ;;;;
 ;;;; THEME
