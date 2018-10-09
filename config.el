@@ -188,8 +188,10 @@ Photometry is used to change the theme based on ambient light sensor readings."
                                  org-projects-directory
                                  arws-organize
                                  doom-directory))
+    ;; Start temporary org buffers in insert state rather than normal state
+    (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
     ;; Change default org display settings
-    (setq org-ellipsis ".▾▼▾.")
+    (setq org-ellipsis " .▾▼▾.")
     ;; org-bullets-bullet-list '("#")
     ;; Make agenda popup bigger
     (set-popup-rule! "^\\*Org Agenda" :size 0.4 :select t :ttl nil)
