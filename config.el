@@ -54,7 +54,8 @@
 ;;;;
 
 (when (eq system-type 'darwin)          ; should be the same as (when IS-MAC ...)
-  (setq ns-use-thin-smoothing t)        ; Use thinner strokes for font smoothing.
+  (setq ns-use-thin-smoothing t         ; Use thinner strokes for font smoothing.
+        ns-right-option-modifier nil)   ; unbind right option key to allow umlauting
   ;; macOS title-bar fix
   ;; TODO Figure out how to redraw the title-bar to change ns-appearance with theme.
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
