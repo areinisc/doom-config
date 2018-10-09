@@ -147,6 +147,12 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;;; Modules
 ;;;;
 
+;;; feature/evil
+(when (featurep! :feature evil)
+  (after! evil
+    ;; Make '<' and '>' indent/de-dent only two spaces
+    (setq evil-shift-width 2)))
+
 ;;; lang/org
 (when (featurep! :lang org)             ; only runs if org is enabled
   (after! org                           ; don't run until org is loaded
