@@ -131,7 +131,7 @@ Photometry is used to change the theme based on ambient light sensor readings."
  (:after helm-files
    (:map helm-find-files-map
      ;; restores behavior of backspace going up a directory at a time
-     "<DEL>" #'helm-find-files-up-one-level))
+     [backspace] #'helm-find-files-up-one-level))
  ;; (:after smartparens
  ;;   (:map smartparens-mode-map
  ;;     ",s" #'sp-splice-sexp
