@@ -28,6 +28,17 @@
           (string= user-login-name "areinisch"))
   (setq avy-keys '(?a ?r ?s ?t ?h ?n ?e ?i ?o)))
 
+;;;###autoload
+(defun +hlissner/find-notes-for-project (&optional arg)
+  "TODO"
+  (interactive "P")
+  (let ((project-root (doom-project-name 'nocache))
+        (default-directory (expand-file-name "projects/" +org-dir)))
+    (if arg
+        (call-interactively #'find-file)
+      (find-file
+       (expand-file-name (concat project-root ".org"))))))
+
 
 ;;;;
 ;;;; THEME
@@ -146,6 +157,10 @@ Photometry is used to change the theme based on ambient light sensor readings."
  ;;     ",f" #'sp-forward-slurp-sexp
  ;;     ",w" #'sp-wrap-round))
  (:leader
+   (:prefix "n"
+     :desc "Browse project notes"  :n  "p" #'+hlissner/find-notes-for-project)
+   (:prefix "p"
+     :desc "Browse project notes"  :n  "n" #'+hlissner/find-notes-for-project)
    (:prefix "t"
      :desc "toggle-theme"  :n "t" #'+areinisch/toggle-theme
      :desc "Start a fire." :n "z" #'fireplace)))
@@ -166,11 +181,48 @@ Photometry is used to change the theme based on ambient light sensor readings."
   (after! org                           ; don't run until org is loaded
     ;; Set org agenda file locations.
     (setq org-directory (expand-file-name "~/org/")
+          org-projects-directory (expand-file-name "~/org/projects/")
           doom-directory (expand-file-name "~/.doom.d/")
           arws-organize (expand-file-name "~/Documents/arws-organize/")
           org-agenda-files (list org-directory
+                                 org-projects-directory
                                  arws-organize
-                                 doom-directory))))
+                                 doom-directory))
+    ;; Start temporary org buffers in insert state rather than normal state
+    (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
+    ;; Change default org display settings
+    (setq org-ellipsis " .▾▼▾.")
+    ;; org-bullets-bullet-list '("#")
+    ;; Make agenda popup bigger
+    (set-popup-rule! "^\\*Org Agenda" :size 0.4 :select t :ttl nil)
+    ;; Add todo-state-change triggers
+    (setq org-todo-state-tags-triggers
+          (quote (("CANCELLED" ("CANCELLED" . t))
+                  ("WAITING" ("WAITING" . t))
+                  ("LATER" ("WAITING") ("LATER" . t))
+                  (done ("WAITING") ("LATER"))
+                  ("TODO" ("WAITING") ("CANCELLED") ("LATER"))
+                  ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
+                  ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))
+    ;; Add habits module
+    (add-to-list 'org-modules 'org-habit t)
+    ;; Change default org-habits settings
+    (after! org-habit
+      (setq org-habit-graph-column   54   ; The absolute column at which to insert habit consistency graphs. N.B. consistency graphs will overwrite anything else in the buffer.
+            org-habit-preceding-days 19   ; Number of days before today to appear in consistency graphs.
+            org-habit-following-days 7    ; Number of days after today to appear in consistency graphs.
+            org-habit-show-habits-only-for-today t ; If non-nil, only show habits on today's agenda, and not for future days. N.B. even when shown for future days, the graph is always relative to the current effective date.
+            org-habit-show-done-always-green nil ; Non-nil means DONE days will always be green in the consistency graph. It will be green even if it was done after the deadline.
+            org-habit-show-all-today nil  ; If non-nil, will show the consistency graph of all habits on today's agenda, even if they are not scheduled.
+            org-habit-show-habits    t)))) ; If non-nil, show habits in agenda buffers.
+
+;;     ;; Add capture template
+;;     (when (featurep! :lang org +capture)
+;;         (let ((+relative-project-path (concat "projects/" (doom-project-name 'nocache) ".org")))
+;;           (add-to-list 'org-capture-templates
+;;                        '("p" "Project-Notes" entry
+;;                          (file+headline +relative-project-path "Inbox")
+;;                          "* %u %?\n%i" :prepend t :kill-buffer t))))))
 
 ;; ;;; tools/magit
 ;; (when (and (featurep! :tools magit)
