@@ -161,3 +161,6 @@ tags
 
 
 # End of https://www.gitignore.io/api/commonlisp,elisp,emacs,linux,macos,osx,vim
+
+# Ignore custom log file
+up-doom.log
