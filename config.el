@@ -205,6 +205,9 @@ Photometry is used to change the theme based on ambient light sensor readings."
                   ("TODO" ("WAITING") ("CANCELLED") ("LATER"))
                   ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
                   ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))
+    ;; Add table easy template
+    (add-to-list 'org-structure-template-alist
+                 '("t" "#+BEGIN_TABLE\n?\n#+END_TABLE"))
     ;; Add habits module
     (add-to-list 'org-modules 'org-habit t)
     ;; Change default org-habits settings
