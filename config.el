@@ -195,7 +195,7 @@ Photometry is used to change the theme based on ambient light sensor readings."
     (setq org-ellipsis " .▾▼▾.")
     ;; org-bullets-bullet-list '("#")
     ;; Make agenda popup bigger
-    (set-popup-rule! "^\\*Org Agenda" :size 0.4 :select t :ttl nil)
+    (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
     ;; Add todo-state-change triggers
     (setq org-todo-state-tags-triggers
           (quote (("CANCELLED" ("CANCELLED" . t))
