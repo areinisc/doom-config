@@ -159,4 +159,9 @@
        ;; provides a Spacemacs-inspired keybinding scheme, a custom yasnippet
        ;; library, and additional ex commands for evil-mode. Use it as a
        ;; reference for your own modules.
-       (default +bindings +snippets +evil-commands))
+       (default
+         +bindings
+         ;; +smartparens   ; As of 9f2dff02, the default smartparens config is gated behind a new flag (+smartparens) for the :config default module.
+                           ; This config was enabled by default in the past, so it may seem that delimiters and parentheses are being autopaired differently (if at all).
+                           ; If you prefer the old behavior, add +smartparens to your doom! blocks.
+         +snippets))
