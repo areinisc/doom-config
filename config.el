@@ -200,10 +200,12 @@ Photometry is used to change the theme based on ambient light sensor readings."
               ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
               ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))
 (after! org                           ; don't run until org is loaded
+  ;; Make sure agenda is a popup; this will be merged into Doom defaults
+  (setq org-agenda-window-setup 'popup-window)
   ;; Start temporary org buffers in insert state rather than normal state
   (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
   ;; Make agenda popup bigger
-  ;; (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
+  (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
   ;; Add table easy template
   (add-to-list 'org-structure-template-alist
                 '("t" "#+BEGIN_TABLE\n?\n#+END_TABLE"))
