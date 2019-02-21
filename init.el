@@ -48,6 +48,7 @@
        window-select     ; visually switch windows
 
        :editor
+       fold              ; (nigh) universal code folding
        ;;(format +onsave)  ; automated prettiness
        ;;lispy             ; vim for lisp, for people who dont like vim
        multiple-cursors  ; editing in many places at once
@@ -56,13 +57,11 @@
 
        :emacs
        (dired            ; making dired pretty [functional]
-       ;;+ranger         ; bringing the goodness of ranger to dired
-       ;;+icons          ; colorful icons for dired-mode
+        ;;+ranger         ; bringing the goodness of ranger to dired
+        ;;+icons          ; colorful icons for dired-mode
         )
-       ediff             ; comparing files in Emacs
        electric          ; smarter, keyword-based electric-indent
        ;;eshell            ; a consistent, cross-platform shell (WIP)
-       hideshow          ; basic code-folding support
        imenu             ; an imenu sidebar and searchable code index
        term              ; terminals in Emacs
        vc                ; version-control and Emacs, sitting in a tree
@@ -74,8 +73,8 @@
        ;;ein               ; tame Jupyter notebooks with emacs
        gist              ; interacting with github gists
        macos             ; MacOS-specific commands
+       magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
-       magit             ;
        password-store    ; password manager for nerds
        (pdf               ; pdf enhancements
         +modeline)
@@ -163,9 +162,13 @@
        ;; provides a Spacemacs-inspired keybinding scheme, a custom yasnippet
        ;; library, and additional ex commands for evil-mode. Use it as a
        ;; reference for your own modules.
+       ;; As of 9f2dff02, the default smartparens config is gated behind a new
+       ;; flag (+smartparens) for the :config default module.
+       ;; This config was enabled by default in the past, so it may seem that
+       ;; delimiters and parentheses are being autopaired differently (if at
+       ;; all).
+       ;; If you prefer the old behavior, add +smartparens to your doom! blocks.
        (default
          +bindings
-         ;; +smartparens   ; As of 9f2dff02, the default smartparens config is gated behind a new flag (+smartparens) for the :config default module.
-                           ; This config was enabled by default in the past, so it may seem that delimiters and parentheses are being autopaired differently (if at all).
-                           ; If you prefer the old behavior, add +smartparens to your doom! blocks.
+         ;; +smartparens
          +snippets))
