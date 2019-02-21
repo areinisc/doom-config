@@ -207,8 +207,9 @@ Photometry is used to change the theme based on ambient light sensor readings."
   ;; Make agenda popup bigger
   (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
   ;; Add table easy template
+  (add-to-list 'org-modules 'org-tempo t) ; TODO: consider using snippets instead
   (add-to-list 'org-structure-template-alist
-                '("t" "#+BEGIN_TABLE\n?\n#+END_TABLE"))
+                '("t" . "table"))
   ;; Add habits module
   (add-to-list 'org-modules 'org-habit t)
   ;; Change default org-habits settings
