@@ -39,6 +39,12 @@
       (find-file
        (expand-file-name (concat project-root ".org"))))))
 
+;; TODO: Actually make these functions be autoloaded.
+(defun +insert-inactive-time-stamp ()
+  "Convenience function for inserting inactive time stamp at point."
+  (interactive)
+  (org-time-stamp-inactive '(16)))
+
 
 ;;;;
 ;;;; THEME
@@ -147,10 +153,10 @@ Photometry is used to change the theme based on ambient light sensor readings."
      "C--"   #'fireplace-down
      "C-*"   #'fireplace-toggle-smoke
      "C-q"   #'fireplace-off))
- (:after helm-files
-   (:map helm-find-files-map
-     ;; restores behavior of backspace going up a directory at a time
-     [backspace] #'helm-find-files-up-one-level))
+ (:after org
+   :localleader
+   :map org-mode-map
+   :desc "Insert inactive time-stamp" "i" #'+insert-inactive-time-stamp)
  ;; (:after smartparens
  ;;   (:map smartparens-mode-map
  ;;     ",s" #'sp-splice-sexp
@@ -229,14 +235,3 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;                        '("p" "Project-Notes" entry
 ;;                          (file+headline +relative-project-path "Inbox")
 ;;                          "* %u %?\n%i" :prepend t :kill-buffer t))))))
-
-;; ;;; tools/magit
-;; (when (and (featurep! :tools magit)
-;;            (featurep! :emacs vc))
-;;   ;; Make the VC portion of the modeline correctly update after magit actions.
-;;   (defun +magit|update-vc-post-refresh ()
-;;     (dolist (buf (buffer-list))
-;;       (with-current-buffer buf
-;;         (let ((revert-buffer-in-progress-p t))
-;;           (vc-refresh-state)))))
-;;   (add-hook 'magit-post-refresh-hook #'+magit|update-vc-post-refresh))
