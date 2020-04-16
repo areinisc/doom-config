@@ -6,12 +6,14 @@
 
 (package! fireplace)
 
-;; Trying Henrik's macos patch.
-(package! exec-path-from-shell :disable t)
-;; have to edit /usr/local/Cellar/emacs-plus/Emacs.app/Contents/MacOS/Emacs
-;; change shebang line from #!/usr/bin/env bash to #!/usr/local/bin/bash
-;; Actually we're changing to #!/bin/bash and also adding -l to exec like so:
-;; exec "$SHELL" -l -c "$pwd/RunEmacs $args"
+(package! atomic-chrome)
+
+;;; Trying Henrik's macos patch.
+;(package! exec-path-from-shell :disable t)
+;;; have to edit /usr/local/Cellar/emacs-plus/Emacs.app/Contents/MacOS/Emacs
+;;; change shebang line from #!/usr/bin/env bash to #!/usr/local/bin/bash
+;;; Actually we're changing to #!/bin/bash and also adding -l to exec like so:
+;;; exec "$SHELL" -l -c "$pwd/RunEmacs $args"
 
 
 ;;;

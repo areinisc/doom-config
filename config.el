@@ -4,46 +4,70 @@
 ;;;; General Settings and Doom Things
 ;;;;
 
-;; Make Doom shut up about recentf-cleanup
-(advice-add #'recentf-cleanup :around #'doom*shut-up)
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 ;; Set user name, big-font, etc.
-(setq-default
- user-full-name    "Alex Reinisch"
- user-mail-address "alex.p.reinisch@gmail.com"
+(setq user-full-name    "Alex Reinisch"
+      user-mail-address "alex.p.reinisch@gmail.com")
 
- ;; +pretty-code-enabled-modes '(emacs-lisp-mode org-mode)
- ;; +format-on-save-enabled-modes '(not emacs-lisp-mode)
-
- ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
- ;; doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
- doom-font (face-attribute 'default :font)
- ;; TODO: Find a way to ensure `doom-big-font` choice exists
- doom-big-font (font-spec :family "Source Code Pro" :size 19))
+      ;; +pretty-code-enabled-modes '(emacs-lisp-mode org-mode)
+      ;; +format-on-save-enabled-modes '(not emacs-lisp-mode)
 
 ;; change easy-motion jump targets for Colemak layout
 ;; only do this if I'm the system user
-(when (or (string= user-full-name "Alex Reinisch")
+(when (or (string= user-full-name  "Alex Reinisch")
           (string= user-login-name "alexreinisch")
           (string= user-login-name "areinisch"))
   (setq avy-keys '(?a ?r ?s ?t ?h ?n ?e ?i ?o)))
 
-;;;###autoload
-(defun +hlissner/find-notes-for-project (&optional arg)
-  "TODO"
-  (interactive "P")
-  (let ((project-root (doom-project-name 'nocache))
-        (default-directory (expand-file-name "projects/" +org-dir)))
-    (if arg
-        (call-interactively #'find-file)
-      (find-file
-       (expand-file-name (concat project-root ".org"))))))
+;; atomic-chrome
+(use-package! atomic-chrome
+  :after-call focus-out-hook
+  :config
+  (setq atomic-chrome-default-major-mode 'markdown-mode
+        atomic-chrome-buffer-open-style 'frame)
+  (atomic-chrome-start-server))
+
+;; ;;;###autoload
+;; (defun +hlissner/find-notes-for-project (&optional arg)
+;;   "TODO"
+;;   (interactive "P")
+;;   (let ((project-root (doom-project-name 'nocache))
+;;         (default-directory (expand-file-name "projects/" org-directory)))
+;;     (if arg
+;;         (call-interactively #'find-file)
+;;       (find-file
+;;        (expand-file-name (concat project-root ".org"))))))
 
 ;; TODO: Actually make these functions be autoloaded.
 (defun +insert-inactive-time-stamp ()
   "Convenience function for inserting inactive time stamp at point."
   (interactive)
   (org-time-stamp-inactive '(16)))
+
+
+;;;;
+;;;; Font
+;;;;
+
+;; In case we use this config on a system without these fonts, fail silently
+(setq doom-font (face-attribute 'default :font)
+      ;; doom-font (font-spec :family "Fira Code" :size 13 :weight 'semi-light)
+      ;; doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "sans" :size 13))
+      ;; doom-variable-pitch-font (font-spec :family "iA Writer Quattro V" :size 14))
+      ;; doom-variable-pitch-font (font-spec :family "Fira Sans")
+      ;; doom-unicode-font (font-spec :family "Input Mono Narrow" :size 12)
+      ;; doom-font (face-attribute 'default :font))
+
+;; TODO: Find a way to ensure `doom-big-font` choice exists
+(if (eq system-type 'darwin)
+    (setq doom-big-font (font-spec :family "Source Code Pro" :size 19))
+    (setq doom-big-font (font-spec :family "Noto Mono"       :size 19)))
+
+(custom-set-faces!
+  `(markdown-code-face :background ,(doom-darken 'bg 0.075)))
 
 
 ;;;;
@@ -56,7 +80,7 @@
 (defvar mac-default-theme dark-theme
   "Controls whether default theme is `dark-theme` or `light-theme`.")
 ;; System agnostic default theme choice goes here:
-(setq doom-theme light-theme)           ; set default theme choice
+(setq doom-theme dark-theme)           ; set default theme choice
 
 ;;; Function for hot-swapping between light and dark themes.
 (defun +areinisch/toggle-theme ()
@@ -147,6 +171,18 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;;;
 
 (map!
+ (:leader
+   ;; (:prefix "n"
+   ;;   :desc "Browse project notes"  :n  "p" #'+hlissner/find-notes-for-project)
+   ;; (:prefix "p"
+   ;;   :desc "Browse project notes"  :n  "n" #'+hlissner/find-notes-for-project)
+   ;; (:prefix "o"
+   ;;   :desc "undo-tree-visualize"     :n "u" #'undo-tree-visualize)
+   (:prefix "t"
+     :desc "Auto hard wrapping"      :n "a" #'auto-fill-mode
+     :desc "Theme (dark/light)"      :n "t" #'+areinisch/toggle-theme
+     ;; :desc "toggle visual-line-mode" :n "v" #'visual-line-mode
+     :desc "Start a fire"            :n "Z" #'fireplace))
  (:after fireplace
    (:map fireplace-mode-map
      "C-+"   #'fireplace-up
@@ -156,26 +192,39 @@ Photometry is used to change the theme based on ambient light sensor readings."
  (:after org
    :localleader
    :map org-mode-map
-   :desc "Insert inactive time-stamp" "i" #'+insert-inactive-time-stamp)
+   (:prefix ("z" . "cuztom")
+     :desc "Insert inactive time-stamp" "i" #'+insert-inactive-time-stamp
+     :desc "Copy subtree to clipboard"  "y" #'org-copy-subtree)))
  ;; (:after smartparens
  ;;   (:map smartparens-mode-map
  ;;     ",s" #'sp-splice-sexp
  ;;     ",f" #'sp-forward-slurp-sexp
  ;;     ",w" #'sp-wrap-round))
- (:leader
-   (:prefix "n"
-     :desc "Browse project notes"  :n  "p" #'+hlissner/find-notes-for-project)
-   (:prefix "p"
-     :desc "Browse project notes"  :n  "n" #'+hlissner/find-notes-for-project)
-   (:prefix "t"
-     :desc "toggle-theme"            :n "t" #'+areinisch/toggle-theme
-     :desc "toggle visual-line-mode" :n "v" #'visual-line-mode
-     :desc "Start a fire."           :n "z" #'fireplace)))
+ ;; (:after sly
+ ;;   :localleader
+ ;;   :map sly-mode-map
+ ;;   (:prefix ("g" . "go"))
+ ;;   (:prefix ("h" . "help")
+ ;;     :desc "sly-apropos-all" "A" #'sly-apropos-all)
+ ;;   (:prefix ("c" . "compile"))
+ ;;   (:prefix ("m" . "macrostep"))
+ ;;   (:prefix ("t" . "trace")
+ ;;     :desc "fetch traces"         "G"   #'sly-trace-dialog-fetch-traces
+ ;;     :desc "clear fetched traces" "C-k" #'sly-trace-dialog-clear-fetched-traces
+ ;;     :desc "fetch traces"         "g"   #'sly-trace-dialog-fetch-status
+ ;;     :desc "fetch traces"         "q"   #'quit-window)))
 
 
 ;;;;
 ;;;; Modules
 ;;;;
+
+;; ;; I prefer search matching to be ordered; it's more precise
+;; (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
+
+;; Switch to the new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
 
 ;;; feature/evil
 (when (featurep! :feature evil)
@@ -183,39 +232,81 @@ Photometry is used to change the theme based on ambient light sensor readings."
     ;; Make '<' and '>' indent/de-dent only two spaces
     (setq evil-shift-width 2)))
 
+;;; lang/common-lisp
+;; (after! sly
+;;   (setq sly-complete-symbol-function 'sly-flex-completions))
+
 ;;; lang/org
 ;; Set org agenda file locations.
-(setq org-directory (expand-file-name "~/org/")
-      org-projects-directory (expand-file-name "~/org/projects/")
-      doom-directory (expand-file-name "~/.doom.d/")
-      arws-organize (expand-file-name "~/Documents/arws-organize/")
-      org-agenda-files (list org-directory
-                              org-projects-directory
-                              arws-organize
-                              doom-directory))
+(setq org-directory      (expand-file-name "~/org/")
+      online-courses-dir (expand-file-name "~/Documents/online-courses/")
+      deac-dir           (concat online-courses-dir "dog-emotion-and-cognition/")
+      dog-dir            (concat online-courses-dir "DOGx003/")
+      mindfulness-dir    (concat online-courses-dir "mindfulness/")
+      pfa-dir            (concat online-courses-dir "psychological-first-aid/")
+      org-archive-location  (concat org-directory ".archive/%s::"))
+      ;; org-roam-directory   (concat org-directory "roam/")
+
 ;; Change default org display settings
-(setq org-ellipsis " .▾▼▾.")
+(setq org-ellipsis " .▾▼▾."
+      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
   ;; org-bullets-bullet-list '("#")
+
+;; TODO these todo state tags don't work the same way anymore
+;; see [[file:~/.emacs.d/modules/lang/org/config.el::(setq org-todo-keywords]]
 ;; Add todo-state-change triggers
-(setq org-todo-state-tags-triggers
-      (quote (("CANCELLED" ("CANCELLED" . t))
-              ("WAITING" ("WAITING" . t))
-              ("LATER" ("WAITING") ("LATER" . t))
-              (done ("WAITING") ("LATER"))
-              ("TODO" ("WAITING") ("CANCELLED") ("LATER"))
-              ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
-              ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))
+;; (setq org-todo-state-tags-triggers
+;;       (quote (("CANCELLED" ("CANCELLED" . t))
+;;               ("WAITING" ("WAITING" . t))
+;;               ("LATER" ("WAITING") ("LATER" . t))
+;;               (done ("WAITING") ("LATER"))
+;;               ("TODO" ("WAITING") ("CANCELLED") ("LATER"))
+;;               ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
+;;               ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))
+
 (after! org                           ; don't run until org is loaded
-  ;; Make sure agenda is a popup; this will be merged into Doom defaults
-  (setq org-agenda-window-setup 'popup-window)
-  ;; Start temporary org buffers in insert state rather than normal state
-  (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
-  ;; Make agenda popup bigger
-  (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
-  ;; Add table easy template
-  (add-to-list 'org-modules 'org-tempo t) ; TODO: consider using snippets instead
-  (add-to-list 'org-structure-template-alist
-                '("t" . "table"))
+  (setq org-agenda-files (list org-directory
+                               deac-dir
+                               dog-dir
+                               mindfulness-dir
+                               pfa-dir))
+
+  ;; ;; Backwards compatibility with =org-pdfview= style links
+  ;; (add-to-list 'org-link-abbrev-alist '("pdfview" . "pdftools:"))
+
+  ;; ;; AloisJanicekToday at 8:46 AM
+  ;; ;; org-pdfview is currently misconfigured in doom-emacs.
+  ;; ;; Until it's fixed add this to your config.el: <code-below>
+  ;; ;; it will register "pdfview" org-link type and autoload required commands
+  ;; ;; autoload `org-pdfview-complete-link' and `org-pdfview-store-link'
+  ;; (unless
+  ;;     (fboundp 'org-pdfview-complete-link)
+  ;;   (autoload
+  ;;     (function org-pdfview-complete-link)
+  ;;     "org-pdfview" nil t))
+
+  ;; (unless
+  ;;     (fboundp 'org-pdfview-store-link)
+  ;;   (autoload
+  ;;     (function org-pdfview-store-link)
+  ;;     "org-pdfview" nil t))
+
+  ;; ;; register pdfview org-link type
+  ;; (org-link-set-parameters "pdfview"
+  ;;                          :follow #'org-pdfview-open
+  ;;                          :complete #'org-pdfview-complete-link
+  ;;                          :store #'org-pdfview-store-link)
+  ;; (org-add-link-type "pdfview" 'org-pdfview-open)
+  ;; (add-hook 'org-store-link-functions #'org-pdfview-store-link)
+
+  ;; ;; Start temporary org buffers in insert state rather than normal state
+  ;; (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
+  ;; ;; Make agenda popup bigger
+  ;; (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
+  ;; ;; Add table easy template
+  ;; (add-to-list 'org-modules 'org-tempo t) ; TODO: consider using snippets instead
+  ;; (add-to-list 'org-structure-template-alist
+  ;;               '("t" . "table"))
   ;; Add habits module
   (add-to-list 'org-modules 'org-habit t)
   ;; Change default org-habits settings
