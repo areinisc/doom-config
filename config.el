@@ -9,7 +9,13 @@
 
 ;; Set user name, big-font, etc.
 (setq user-full-name    "Alex Reinisch"
-      user-mail-address "alex.p.reinisch@gmail.com")
+      user-mail-address "alex.p.reinisch@gmail.com"
+
+      ;; IHO, modern editors have trained a bad habit into us all: a burning
+      ;; need for completion all the time -- as we type, as we breathe, as we
+      ;; pray to the ancient ones -- but how often do you *really* need that
+      ;; information? I say rarely. So opt for manual completion:
+      company-idle-delay nil)
 
       ;; +pretty-code-enabled-modes '(emacs-lisp-mode org-mode)
       ;; +format-on-save-enabled-modes '(not emacs-lisp-mode)
@@ -41,10 +47,32 @@
 ;;        (expand-file-name (concat project-root ".org"))))))
 
 ;; TODO: Actually make these functions be autoloaded.
-(defun +insert-inactive-time-stamp ()
+(defun +areinisch/insert-inactive-time-stamp ()
   "Convenience function for inserting inactive time stamp at point."
   (interactive)
   (org-time-stamp-inactive '(16)))
+
+;; Save and exit for journal entry by @dhruvparamhans
+(defun +areinisch/org-journal-save-entry-and-exit ()
+  "Simple convenience function.
+  Saves the buffer of the current day's entry and kills the window
+  Similar to org-capture like behavior"
+  (interactive)
+  (save-buffer)
+  (kill-buffer-and-window))
+;; (define-key org-journal-mode-map (kbd "C-x C-s") 'org-journal-save-entry-and-exit)
+
+;; Toggle #'fireplace
+(defun +areinisch/fireplace-toggle ()
+  "Convenience function for toggling fireplace on/off."
+  (interactive)
+  (if (get '+areinisch/fireplace-toggle 'state)
+      (progn
+        (fireplace)
+        (put '+areinisch/fireplace-toggle 'state nil))
+    (progn
+      (fireplace-off)
+      (put '+areinisch/fireplace-toggle 'state t))))
 
 
 ;;;;
@@ -74,7 +102,7 @@
 ;;;; THEME
 ;;;;
 
-;;; Set light and dark theme choices here!
+;; Set light and dark theme choices here!
 (defvar light-theme 'doom-solarized-light) ; doom-solarized-light doom-nord-light doom-one-light
 (defvar dark-theme  'doom-dracula)         ; doom-dracula doom-peacock doom-one doom-nord
 (defvar mac-default-theme dark-theme
@@ -82,7 +110,7 @@
 ;; System agnostic default theme choice goes here:
 (setq doom-theme dark-theme)           ; set default theme choice
 
-;;; Function for hot-swapping between light and dark themes.
+;; Function for hot-swapping between light and dark themes.
 (defun +areinisch/toggle-theme ()
   "Toggle between light and dark themes."
   (interactive)
@@ -172,29 +200,35 @@ Photometry is used to change the theme based on ambient light sensor readings."
 
 (map!
  (:leader
-   ;; (:prefix "n"
-   ;;   :desc "Browse project notes"  :n  "p" #'+hlissner/find-notes-for-project)
-   ;; (:prefix "p"
-   ;;   :desc "Browse project notes"  :n  "n" #'+hlissner/find-notes-for-project)
-   ;; (:prefix "o"
-   ;;   :desc "undo-tree-visualize"     :n "u" #'undo-tree-visualize)
+   (:prefix "n"
+     (:prefix "j"
+       :desc "New todo entry"  :n  "t" #'org-journal-new-scheduled-entry))
+ ;; (:prefix "o"
+ ;;   :desc "undo-tree-visualize"     :n "u" #'undo-tree-visualize)
+ ;; (:prefix "p"
+ ;;   :desc "Browse project notes"  :n  "n" #'+hlissner/find-notes-for-project)
    (:prefix "t"
      :desc "Auto hard wrapping"      :n "a" #'auto-fill-mode
      :desc "Theme (dark/light)"      :n "t" #'+areinisch/toggle-theme
      ;; :desc "toggle visual-line-mode" :n "v" #'visual-line-mode
-     :desc "Start a fire"            :n "Z" #'fireplace))
+     :desc "Light/extinguish fire"   :n "Z" #'+areinisch/fireplace-toggle))
  (:after fireplace
+   :localleader
    (:map fireplace-mode-map
-     "C-+"   #'fireplace-up
-     "C--"   #'fireplace-down
-     "C-*"   #'fireplace-toggle-smoke
-     "C-q"   #'fireplace-off))
+     :desc "Move fire further up"   "u" #'fireplace-up
+     :desc "Push fire further down" "d" #'fireplace-down
+     :desc "Toggle smoke on/off"    "s" #'fireplace-toggle-smoke
+     :desc "Toggle sound on/off"    "S" #'fireplace-toggle-sound
+     :desc "Put out the fire"       "q" #'+areinisch/fireplace-toggle))
  (:after org
    :localleader
-   :map org-mode-map
-   (:prefix ("z" . "cuztom")
-     :desc "Insert inactive time-stamp" "i" #'+insert-inactive-time-stamp
-     :desc "Copy subtree to clipboard"  "y" #'org-copy-subtree)))
+   (:map org-journal-mode-map
+     (:prefix ("z" . "+cuztom")
+       :desc "Save and exit"              "q" #'+areinisch/org-journal-save-entry-and-exit))
+   (:map org-mode-map
+     (:prefix ("z" . "+cuztom")
+       :desc "Insert inactive time-stamp" "i" #'+areinisch/insert-inactive-time-stamp
+       :desc "Copy subtree to clipboard"  "y" #'org-copy-subtree))))
  ;; (:after smartparens
  ;;   (:map smartparens-mode-map
  ;;     ",s" #'sp-splice-sexp
@@ -219,14 +253,15 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;;; Modules
 ;;;;
 
-;; ;; I prefer search matching to be ordered; it's more precise
+;;; completion/ivy
+;; ;; Henrik prefers search matching to be ordered; it's more precise
 ;; (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
 
+;;; feature/evil
 ;; Switch to the new window after splitting
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 
-;;; feature/evil
 (when (featurep! :feature evil)
   (after! evil
     ;; Make '<' and '>' indent/de-dent only two spaces
@@ -244,7 +279,8 @@ Photometry is used to change the theme based on ambient light sensor readings."
       dog-dir            (concat online-courses-dir "DOGx003/")
       mindfulness-dir    (concat online-courses-dir "mindfulness/")
       pfa-dir            (concat online-courses-dir "psychological-first-aid/")
-      org-archive-location  (concat org-directory ".archive/%s::"))
+      org-archive-location  (concat org-directory ".archive/%s::")
+      org-journal-enable-agenda-integration t)
       ;; org-roam-directory   (concat org-directory "roam/")
 
 ;; Change default org display settings
@@ -271,42 +307,12 @@ Photometry is used to change the theme based on ambient light sensor readings."
                                mindfulness-dir
                                pfa-dir))
 
-  ;; ;; Backwards compatibility with =org-pdfview= style links
-  ;; (add-to-list 'org-link-abbrev-alist '("pdfview" . "pdftools:"))
+  ;; Start temporary org buffers in insert state rather than normal state
+  (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
 
-  ;; ;; AloisJanicekToday at 8:46 AM
-  ;; ;; org-pdfview is currently misconfigured in doom-emacs.
-  ;; ;; Until it's fixed add this to your config.el: <code-below>
-  ;; ;; it will register "pdfview" org-link type and autoload required commands
-  ;; ;; autoload `org-pdfview-complete-link' and `org-pdfview-store-link'
-  ;; (unless
-  ;;     (fboundp 'org-pdfview-complete-link)
-  ;;   (autoload
-  ;;     (function org-pdfview-complete-link)
-  ;;     "org-pdfview" nil t))
-
-  ;; (unless
-  ;;     (fboundp 'org-pdfview-store-link)
-  ;;   (autoload
-  ;;     (function org-pdfview-store-link)
-  ;;     "org-pdfview" nil t))
-
-  ;; ;; register pdfview org-link type
-  ;; (org-link-set-parameters "pdfview"
-  ;;                          :follow #'org-pdfview-open
-  ;;                          :complete #'org-pdfview-complete-link
-  ;;                          :store #'org-pdfview-store-link)
-  ;; (org-add-link-type "pdfview" 'org-pdfview-open)
-  ;; (add-hook 'org-store-link-functions #'org-pdfview-store-link)
-
-  ;; ;; Start temporary org buffers in insert state rather than normal state
-  ;; (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
   ;; ;; Make agenda popup bigger
   ;; (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
-  ;; ;; Add table easy template
-  ;; (add-to-list 'org-modules 'org-tempo t) ; TODO: consider using snippets instead
-  ;; (add-to-list 'org-structure-template-alist
-  ;;               '("t" . "table"))
+
   ;; Add habits module
   (add-to-list 'org-modules 'org-habit t)
   ;; Change default org-habits settings
@@ -318,11 +324,3 @@ Photometry is used to change the theme based on ambient light sensor readings."
           org-habit-show-done-always-green nil ; Non-nil means DONE days will always be green in the consistency graph. It will be green even if it was done after the deadline.
           org-habit-show-all-today nil  ; If non-nil, will show the consistency graph of all habits on today's agenda, even if they are not scheduled.
           org-habit-show-habits    t))) ; If non-nil, show habits in agenda buffers.
-
-;;     ;; Add capture template
-;;     (when (featurep! :lang org +capture)
-;;         (let ((+relative-project-path (concat "projects/" (doom-project-name 'nocache) ".org")))
-;;           (add-to-list 'org-capture-templates
-;;                        '("p" "Project-Notes" entry
-;;                          (file+headline +relative-project-path "Inbox")
-;;                          "* %u %?\n%i" :prepend t :kill-buffer t))))))
