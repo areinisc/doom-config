@@ -46,7 +46,7 @@
         +defaults)       ; default popup rules
        ;; (pretty-code      ; replace bits of code with pretty symbols
        ;;  +iosevka)        ; currently have +iosevka, +fira fonts
-       ;;tabs            ; an tab bar for Emacs
+       ;; tabs              ; an tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
