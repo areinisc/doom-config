@@ -74,6 +74,11 @@
       (fireplace-off)
       (put '+areinisch/fireplace-toggle 'state t))))
 
+;; Paste from default/system register
+(defun +areinisch/system-paste ()
+  "Paste from the system/default register. Basically just shorthand for =C-r +=."
+  (interactive)
+  (evil-paste-from-register ?+))
 
 ;;;;
 ;;;; Font
@@ -200,13 +205,14 @@ Photometry is used to change the theme based on ambient light sensor readings."
 
 (map!
  (:leader
+   :desc "Paste from reg[+]"   :n "P" #'+areinisch/system-paste
    (:prefix "n"
      (:prefix "j"
-       :desc "New todo entry"  :n  "t" #'org-journal-new-scheduled-entry))
+       :desc "New todo entry"  :n "t" #'org-journal-new-scheduled-entry))
  ;; (:prefix "o"
- ;;   :desc "undo-tree-visualize"     :n "u" #'undo-tree-visualize)
+ ;;   :desc "undo-tree-visualize"   :n "u" #'undo-tree-visualize)
  ;; (:prefix "p"
- ;;   :desc "Browse project notes"  :n  "n" #'+hlissner/find-notes-for-project)
+ ;;   :desc "Browse project notes"  :n "n" #'+hlissner/find-notes-for-project)
    (:prefix "t"
      :desc "Auto hard wrapping"      :n "a" #'auto-fill-mode
      :desc "Theme (dark/light)"      :n "t" #'+areinisch/toggle-theme
