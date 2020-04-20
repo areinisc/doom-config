@@ -268,6 +268,9 @@ Photometry is used to change the theme based on ambient light sensor readings."
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 
+;; More vim-like undo behavior
+(setq evil-want-fine-undo t)
+
 (when (featurep! :feature evil)
   (after! evil
     ;; Make '<' and '>' indent/de-dent only two spaces
