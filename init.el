@@ -107,7 +107,7 @@
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
        pass              ; password manager for nerds
-       (pdf)               ; pdf enhancements
+       pdf               ; pdf enhancements
         ;; +modeline)
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
@@ -158,8 +158,9 @@
         +hugo            ; use Emacs for hugo blogging
         +journal         ; enables org-journal integration
         +jupyter         ; ipython/jupyter support for babel
+        ;; +noter           ; keep notes in sync with a document (org-noter); requires (:tools pdf)
         +pandoc          ; export-with-pandoc support
-        ;;+pomodoro        ; be fruitful with the tomato technique
+        ;; +pomodoro        ; be fruitful with the tomato technique
         +present)        ; using org-mode for presentations
         ;; +roam)            ; enables org-roam integration
        ;;perl              ; write code no one else can comprehend
