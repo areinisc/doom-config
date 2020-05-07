@@ -284,53 +284,51 @@ Photometry is used to change the theme based on ambient light sensor readings."
 ;;; lang/org
 ;; Set org agenda file locations.
 (setq org-directory      (expand-file-name "~/org/")
-      online-courses-dir (expand-file-name "~/Documents/online-courses/")
-      deac-dir           (concat online-courses-dir "dog-emotion-and-cognition/")
-      dog-dir            (concat online-courses-dir "DOGx003/")
-      mindfulness-dir    (concat online-courses-dir "mindfulness/")
-      pfa-dir            (concat online-courses-dir "psychological-first-aid/")
-      org-archive-location  (concat org-directory ".archive/%s::")
-      org-journal-enable-agenda-integration t)
+      online-courses-dir (expand-file-name "~/Documents/online-courses/")        ; \
+      deac-dir           (concat online-courses-dir "dog-emotion-and-cognition/"); |
+      dog-dir            (concat online-courses-dir "DOGx003/")                  ;  >-- TEMP: online course dirs
+      mindfulness-dir    (concat online-courses-dir "mindfulness/")              ; |
+      pfa-dir            (concat online-courses-dir "psychological-first-aid/")  ; /
+      org-archive-location  (concat org-directory ".archive/%s::"))
       ;; org-roam-directory   (concat org-directory "roam/")
 
-;; Change default org display settings
-(setq org-ellipsis " .▾▼▾."
-      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
-  ;; org-bullets-bullet-list '("#")
-
-;; TODO these todo state tags don't work the same way anymore
-;; see [[file:~/.emacs.d/modules/lang/org/config.el::(setq org-todo-keywords]]
-;; Add todo-state-change triggers
-;; (setq org-todo-state-tags-triggers
-;;       (quote (("CANCELLED" ("CANCELLED" . t))
-;;               ("WAITING" ("WAITING" . t))
-;;               ("LATER" ("WAITING") ("LATER" . t))
-;;               (done ("WAITING") ("LATER"))
-;;               ("TODO" ("WAITING") ("CANCELLED") ("LATER"))
-;;               ("NEXT" ("WAITING") ("CANCELLED") ("LATER"))
-;;               ("DONE" ("WAITING") ("CANCELLED") ("LATER")))))
-
-(after! org                           ; don't run until org is loaded
-  (setq org-agenda-files (list org-directory
-                               deac-dir
-                               dog-dir
-                               mindfulness-dir
-                               pfa-dir))
+(after! org ; *Everything* should go into ~(after! org ...)~ except file/directory variables
 
   ;; Start temporary org buffers in insert state rather than normal state
   (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
 
+  ;;; =+dragndrop=
+  ;; Fix =+dragndrop= attachments by making sure org recognizes =attachment:= style links
+  (org-link-set-parameters "attachment" :image-data-fun #'+org-image-file-data-fn)
+
+  ;; Change default org display settings
+  (setq org-ellipsis " .▾▼▾."
+        org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
+
+  ;;; org-agenda
+  ;; Set agenda locations
+  (setq org-agenda-files (list org-directory
+                               deac-dir        ; \
+                               dog-dir         ; |
+                               mindfulness-dir ;  >-- TEMP: online courses
+                               pfa-dir))       ; /
+
   ;; ;; Make agenda popup bigger
   ;; (set-popup-rule! "^\\*Org Agenda" :side 'left :size 0.5 :select t :ttl nil)
 
-  ;; Add habits module
-  (add-to-list 'org-modules 'org-habit t)
-  ;; Change default org-habits settings
-  (after! org-habit
-    (setq org-habit-graph-column   54   ; The absolute column at which to insert habit consistency graphs. N.B. consistency graphs will overwrite anything else in the buffer.
-          org-habit-preceding-days 19   ; Number of days before today to appear in consistency graphs.
-          org-habit-following-days 7    ; Number of days after today to appear in consistency graphs.
-          org-habit-show-habits-only-for-today t ; If non-nil, only show habits on today's agenda, and not for future days. N.B. even when shown for future days, the graph is always relative to the current effective date.
-          org-habit-show-done-always-green nil ; Non-nil means DONE days will always be green in the consistency graph. It will be green even if it was done after the deadline.
-          org-habit-show-all-today nil  ; If non-nil, will show the consistency graph of all habits on today's agenda, even if they are not scheduled.
-          org-habit-show-habits    t))) ; If non-nil, show habits in agenda buffers.
+  ;;; =+journal=
+  (setq org-journal-enable-agenda-integration t))
+
+  ;; ;; Habits are now integrated into DOOM by default with (possibly) sensible defaults.
+  ;; ;; Trying out not having these settings.
+  ;; ;; Add habits module
+  ;; (add-to-list 'org-modules 'org-habit t)
+  ;; ;; Change default org-habits settings
+  ;; (after! org-habit
+  ;;   (setq org-habit-graph-column   54   ; The absolute column at which to insert habit consistency graphs. N.B. consistency graphs will overwrite anything else in the buffer.
+  ;;         org-habit-preceding-days 19   ; Number of days before today to appear in consistency graphs.
+  ;;         org-habit-following-days 7    ; Number of days after today to appear in consistency graphs.
+  ;;         org-habit-show-habits-only-for-today t ; If non-nil, only show habits on today's agenda, and not for future days. N.B. even when shown for future days, the graph is always relative to the current effective date.
+  ;;         org-habit-show-done-always-green nil ; Non-nil means DONE days will always be green in the consistency graph. It will be green even if it was done after the deadline.
+  ;;         org-habit-show-all-today nil  ; If non-nil, will show the consistency graph of all habits on today's agenda, even if they are not scheduled.
+  ;;         org-habit-show-habits    t))) ; If non-nil, show habits in agenda buffers.
