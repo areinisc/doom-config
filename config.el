@@ -297,10 +297,6 @@ Photometry is used to change the theme based on ambient light sensor readings."
   ;; Start temporary org buffers in insert state rather than normal state
   (add-hook 'org-log-buffer-setup-hook #'evil-insert-state)
 
-  ;;; =+dragndrop=
-  ;; Fix =+dragndrop= attachments by making sure org recognizes =attachment:= style links
-  (org-link-set-parameters "attachment" :image-data-fun #'+org-image-file-data-fn)
-
   ;; Change default org display settings
   (setq org-ellipsis " .▾▼▾."
         org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
