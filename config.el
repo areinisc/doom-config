@@ -232,6 +232,7 @@ Photometry is used to change the theme based on ambient light sensor readings."
      (:prefix ("z" . "+cuztom")
        :desc "Save and exit"              "q" #'+areinisch/org-journal-save-entry-and-exit))
    (:map org-mode-map
+     :desc "Add note to entry"            "N" #'org-add-note
      (:prefix ("z" . "+cuztom")
        :desc "Insert inactive time-stamp" "i" #'+areinisch/insert-inactive-time-stamp
        :desc "Copy subtree to clipboard"  "y" #'org-copy-subtree))))
